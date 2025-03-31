@@ -90,7 +90,7 @@ pipeline {
         )
         string(
             name: 'QE_OCM_REPO_BRANCH',
-            defaultValue: 'ocm-api-load',
+            defaultValue: 'ocm-api-load-ap-region',
             description: 'You can change this to point to a branch on your fork if needed.'
         )
         string(
