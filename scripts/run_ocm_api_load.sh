@@ -6,11 +6,11 @@
 # get-machine-pools 5/s 5\n
 # get-cluster-logs 5/s 5\n
 export tests="
-list-clusters 5/s 5 \n
-get-provision-shards 5/s 5\n
-get-versions 5/s 5\n
-get-cloud-providers 5/s 5\n
-get-addons 5/s 5"
+list-clusters 10/s 5 \n
+get-provision-shards 10/s 5\n
+get-versions 10/s 5\n
+get-cloud-providers 10/s 5\n
+get-addons 10/s 5"
 
 create_aws_key(){
     # Delete aws keys if more than 1 key exists
