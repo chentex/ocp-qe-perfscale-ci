@@ -11,9 +11,26 @@
 # get-cloud-providers 15/s 5\n
 # get-addons 15/s 5"
 export tests="
-create-cluster 25/m 1\n
-get-machine-pools 1/m 1\n
-get-cluster-logs 1/m 1"
+list-clusters 5/s 5\n
+get-provision-shards 5/s 5\n
+get-versions 5/s 5\n
+get-cloud-providers 5/s 5\n
+get-addons 5/s 5\n
+list-clusters 10/s 5\n
+get-provision-shards 10/s 5\n
+get-versions 10/s 5\n
+get-cloud-providers 10/s 5\n
+get-addons 10/s 5\n
+list-clusters 15/s 5\n
+get-provision-shards 15/s 5\n
+get-versions 15/s 5\n
+get-cloud-providers 15/s 5\n
+get-addons 15/s 5\n
+list-clusters 20/s 5\n
+get-provision-shards 20/s 5\n
+get-versions 20/s 5\n
+get-cloud-providers 20/s 5\n
+get-addons 20/s 5"
 
 create_aws_key(){
     # Delete aws keys if more than 1 key exists
