@@ -22,8 +22,9 @@ setup(){
 
     rm -rf /tmp/perf-dept
     rm -rf /tmp/environment.txt
-    export GIT_USER=${ORCHESTRATION_USER}
+    export GIT_USER=chentex
     git clone -q --depth=1 --single-branch --branch master https://${SSHKEY_TOKEN}@github.com/redhat-performance/perf-dept.git /tmp/perf-dept
+    export GIT_USER=${ORCHESTRATION_USER}
     export PUBLIC_KEY=/tmp/perf-dept/ssh_keys/id_rsa_pbench_ec2.pub
     export PRIVATE_KEY=/tmp/perf-dept/ssh_keys/id_rsa_pbench_ec2
     chmod 600 ${PRIVATE_KEY}
