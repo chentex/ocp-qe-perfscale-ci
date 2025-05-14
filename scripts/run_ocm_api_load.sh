@@ -2,43 +2,43 @@
 
 # declare tests with rate and duration. Duration will be in minutes
 # create_cluster, create-services, get-services and patch-services skipped till they get fixed and stabilized
-# get-versions 1/m 1\n
-# get-cloud-providers 1/m 1\n
-# get-addons 1/m 1\n
-# get-machine-pools 1/m 1\n
-# get-cluster 1/m 1\n
-# get-cluster-tunning-configs 1/m 1\n
-# get-cluster-identity-providers 1/m 1\n
-# search-cluster 1/m 1\n
-# cluster-limited-support-reasons 1/m 1\n
-# get-osl-cluster-logs 1/m 1\n
-# get-osl-uuid-cluster-logs 1/m 1\n
-# post-osl-cluster-logs 1/m 1\n
-# get-versions 1/m 1\n
-# get-cloud-providers 1/m 1\n
-# get-addons 1/m 1\n
-# get-machine-pools 1/m 1\n
-# get-cluster 1/m 1\n
-# get-cluster-tunning-configs 1/m 1\n
-# get-cluster-identity-providers 1/m 1\n
-# search-cluster 1/m 1\n
-# cluster-limited-support-reasons 1/m 1\n
-# get-osl-cluster-logs 1/m 1\n
-# get-osl-uuid-cluster-logs 1/m 1\n
-# post-osl-cluster-logs 1/m 1\n
-# get-versions 1/m 1\n
-# get-cloud-providers 1/m 1\n
-# get-addons 1/m 1\n
-# get-machine-pools 1/m 1\n
-# get-cluster 1/m 1\n
-# get-cluster-tunning-configs 1/m 1\n
-# get-cluster-identity-providers 1/m 1\n
-# search-cluster 1/m 1\n
-# cluster-limited-support-reasons 1/m 1\n
-# get-osl-cluster-logs 1/m 1\n
-# get-osl-uuid-cluster-logs 1/m 1\n
-# post-osl-cluster-logs 1/m 1\n
 export tests="
+get-versions 1/m 1\n
+get-cloud-providers 1/m 1\n
+get-addons 1/m 1\n
+get-machine-pools 1/m 1\n
+get-cluster 1/m 1\n
+get-cluster-tunning-configs 1/m 1\n
+get-cluster-identity-providers 1/m 1\n
+search-cluster 1/m 1\n
+cluster-limited-support-reasons 1/m 1\n
+get-osl-cluster-logs 1/m 1\n
+get-osl-uuid-cluster-logs 1/m 1\n
+post-osl-cluster-logs 1/m 1\n
+get-versions 1/m 1\n
+get-cloud-providers 1/m 1\n
+get-addons 1/m 1\n
+get-machine-pools 1/m 1\n
+get-cluster 1/m 1\n
+get-cluster-tunning-configs 1/m 1\n
+get-cluster-identity-providers 1/m 1\n
+search-cluster 1/m 1\n
+cluster-limited-support-reasons 1/m 1\n
+get-osl-cluster-logs 1/m 1\n
+get-osl-uuid-cluster-logs 1/m 1\n
+post-osl-cluster-logs 1/m 1\n
+get-versions 1/m 1\n
+get-cloud-providers 1/m 1\n
+get-addons 1/m 1\n
+get-machine-pools 1/m 1\n
+get-cluster 1/m 1\n
+get-cluster-tunning-configs 1/m 1\n
+get-cluster-identity-providers 1/m 1\n
+search-cluster 1/m 1\n
+cluster-limited-support-reasons 1/m 1\n
+get-osl-cluster-logs 1/m 1\n
+get-osl-uuid-cluster-logs 1/m 1\n
+post-osl-cluster-logs 1/m 1\n
 get-versions 20/m 1\n
 get-cloud-providers 20/m 1\n
 get-addons 20/m 1\n
