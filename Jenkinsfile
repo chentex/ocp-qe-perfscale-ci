@@ -74,14 +74,14 @@ pipeline {
             description: 'Orchestration User'
         )
         string(
-            name: 'CLUSTER_ID',
-            defaultValue: '',
-            description: 'Cluster ID to use in some test scenarios'
-        )
-        string(
             name: 'CUSTOM_ORCHESTRATION_HOST',
             defaultValue: '',
             description: 'Custom Orchestration Host'
+        )
+        string(
+            name: 'CLUSTER_ID',
+            defaultValue: '',
+            description: 'Cluster ID to use in some test scenarios'
         )
         string(
             name: 'KUBE_BURNER_RELEASE_URL',
@@ -100,7 +100,7 @@ pipeline {
         )
         string(
             name: 'QE_OCM_REPO_BRANCH',
-            defaultValue: 'ocm-api-load-ap-region',
+            defaultValue: 'ocm-api-load-proxy',
             description: 'You can change this to point to a branch on your fork if needed.'
         )
         string(
