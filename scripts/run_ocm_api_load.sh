@@ -11,26 +11,18 @@
 # get-cloud-providers 15/s 5\n
 # get-addons 15/s 5"
 export tests="
-list-clusters 5/s 5\n
-get-provision-shards 5/s 5\n
-get-versions 5/s 5\n
-get-cloud-providers 5/s 5\n
-get-addons 5/s 5\n
-list-clusters 10/s 5\n
-get-provision-shards 10/s 5\n
-get-versions 10/s 5\n
-get-cloud-providers 10/s 5\n
-get-addons 10/s 5\n
-list-clusters 15/s 5\n
-get-provision-shards 15/s 5\n
-get-versions 15/s 5\n
-get-cloud-providers 15/s 5\n
-get-addons 15/s 5\n
-list-clusters 20/s 5\n
-get-provision-shards 20/s 5\n
-get-versions 20/s 5\n
-get-cloud-providers 20/s 5\n
-get-addons 20/s 5"
+get-versions 1/m 1\n
+get-cloud-providers 1/m 1\n
+get-addons 1/m 1\n
+get-machine-pools 1/m 1\n
+get-cluster 1/m 1\n
+get-cluster-tunning-configs 1/m 1\n
+get-cluster-identity-providers 1/m 1\n
+search-cluster 1/m 1\n
+cluster-limited-support-reasons 1/m 1\n
+get-osl-cluster-logs 1/m 1\n
+get-osl-uuid-cluster-logs 1/m 1\n
+post-osl-cluster-logs 1/m 1"
 
 create_aws_key(){
     # Delete aws keys if more than 1 key exists
@@ -101,6 +93,11 @@ run_ocm_api_load(){
             rampoptions="--ramp-type ${var[3]} --ramp-steps ${var[4]} --end-rate ${var[5]} --start-rate $srate --ramp-duration ${var[6]}"
         fi
 
+        clusteroptions=""
+        if [[ -n ${CLUSTER_ID} ]]; then
+            clusteroptions="--cluster-id ${CLUSTER_ID}"
+        fi
+
         # As each test runs for a longer duration, aws OsdCcsAdmin key migt have been deleted if rosa cluster is created in parallel
         aws_osdccadmin_keys=`aws iam list-access-keys --user-name OsdCcsAdmin --output text --query 'AccessKeyMetadata[*].AccessKeyId'`
         if [[ "$aws_osdccadmin_keys" != *"$AWS_OSDCCADMIN_KEY"* ]]; then
@@ -110,7 +107,7 @@ run_ocm_api_load(){
         echo $GATEWAY_URL
 	# Timeout runs ocm-load-test for the specified duration even if airflow killed this script (when user wants to stop benchmark execution). This helps in ocm-load-test to cleanup resources it created. 10 minutes extra timeout is set so that test can prepare results after running for the given duration.
 	# kill-after option needs sudo permissions
-        timeout --kill-after=60s --preserve-status $(((tduration + 20) * 60)) $TESTDIR/build/ocm-load-test --aws-region $AWS_DEFAULT_REGION --aws-account-id $AWS_ACCOUNT_ID --aws-access-key $AWS_OSDCCADMIN_KEY --aws-access-secret $AWS_OSDCCADMIN_SECRET --cooldown $COOLDOWN --duration $tduration --elastic-index ocm-load-metrics --elastic-insecure-skip-verify=true --elastic-server $ES_SERVER --gateway-url $GATEWAY_URL --client-id $OCM_CLIENT_ID --client-secret $OCM_CLIENT_SECRET --ocm-token-url $OCM_TOKEN_URL --output-path $TESTDIR/results --rate $trate --test-id $UUID --test-names $tname $rampoptions || true
+        timeout --kill-after=60s --preserve-status $(((tduration + 20) * 60)) $TESTDIR/build/ocm-load-test --aws-region $AWS_DEFAULT_REGION --aws-account-id $AWS_ACCOUNT_ID --aws-access-key $AWS_OSDCCADMIN_KEY --aws-access-secret $AWS_OSDCCADMIN_SECRET --cooldown $COOLDOWN --duration $tduration --elastic-index ocm-load-metrics --elastic-insecure-skip-verify=true --elastic-server $ES_SERVER --gateway-url $GATEWAY_URL --client-id $OCM_CLIENT_ID --client-secret $OCM_CLIENT_SECRET --ocm-token-url $OCM_TOKEN_URL --output-path $TESTDIR/results --rate $trate --test-id $UUID --test-names $tname $rampoptions $clusteroptions || true
 	sleep $COOLDOWN
     done
     benchmark_rv=$?

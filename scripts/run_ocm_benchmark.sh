@@ -15,9 +15,13 @@ setup(){
     SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
     echo "User: ${ORCHESTRATION_USER} ORCHESTRATION_HOST: ${ORCHESTRATION_HOST}"
-    if [[ $ORCHESTRATION_USER != "perf-ci" && ${ORCHESTRATION_HOST} == "airflow-ocm-jumphost.rdu2.scalelab.redhat.com" ]]; then
+    if [[ $ORCHESTRATION_USER != "perf-ci" && ${ORCHESTRATION_HOST} == "airflow-ocm-jumphost.rdu2.scalelab.redhat.com" && -z ${CUSTOM_ORCHESTRATION_HOST} ]]; then
 	echo "$ORCHESTRATION_USER not allowed to use CI host ${ORCHESTRATION_HOST}"
 	exit 1
+    fi
+
+    if  [[ -n ${CUSTOM_ORCHESTRATION_HOST} ]]; then
+        export ORCHESTRATION_HOST=${CUSTOM_ORCHESTRATION_HOST}
     fi
 
     rm -rf /tmp/perf-dept
@@ -42,6 +46,7 @@ setup(){
     export PROM_TOKEN=${PROM_TOKEN}
     export GATEWAY_URL=${GATEWAY_URL}
     export BUILD_URL=${BUILD_URL}
+    export CLUSTER_ID=${CLUSTER_ID}
 
     # TESTDIR and UUID will be same for ocm-api-load operation. cleanup operation uses different TESTDIR to get unaffected by ocm-api-load operation failures. Cleanup still retrieves UUID and removes /tmp/${UUID} on ORCHESTRATION_HOST
     export TESTDIR=$(uuidgen | head -c8)-$JENKINS_JOB_NUMBER-$(date '+%Y%m%d')

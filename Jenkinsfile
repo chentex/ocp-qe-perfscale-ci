@@ -50,7 +50,7 @@ pipeline {
         )
         string(
             name: 'GATEWAY_URL',
-            defaultValue: 'https://api.integration.openshift.com',
+            defaultValue: 'https://api.stage.openshift.com',
             description: 'Gateway URL'
         )
         string(
@@ -72,6 +72,16 @@ pipeline {
             name: 'ORCHESTRATION_USER',
             defaultValue: 'perf-ci',
             description: 'Orchestration User'
+        )
+        string(
+            name: 'CLUSTER_ID',
+            defaultValue: '',
+            description: 'Cluster ID to use in some test scenarios'
+        )
+        string(
+            name: 'CUSTOM_ORCHESTRATION_HOST',
+            defaultValue: '',
+            description: 'Custom Orchestration Host'
         )
         string(
             name: 'KUBE_BURNER_RELEASE_URL',
