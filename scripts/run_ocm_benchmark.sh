@@ -21,8 +21,8 @@ setup(){
     fi
 
     if  [[ -n ${CUSTOM_ORCHESTRATION_HOST} ]]; then
-        echo "Using CUSTOM_ORCHESTRATION_HOST: ${ORCHESTRATION_HOST}"
         export ORCHESTRATION_HOST=${CUSTOM_ORCHESTRATION_HOST}
+        echo "Using CUSTOM_ORCHESTRATION_HOST: ${ORCHESTRATION_HOST}"
     fi
 
     rm -rf /tmp/perf-dept

@@ -153,39 +153,41 @@ run_ocm_api_load(){
     # Run each test individually
     start_time=$(date +%s)
     echo -e $tests | while read -a var; do
-        tname=""
-        trate=""
-        tduration=0
-        rampoptions=""
+        if  [[ -n ${var} ]]; then
+            tname=""
+            trate=""
+            tduration=0
+            rampoptions=""
 
-        if [ ${#var[@]} -eq 3 ]; then
-            tname=${var[0]}
-            trate=${var[1]}
-            tduration=${var[2]}
-        else
-            tname=${var[0]}
-            trate=${var[1]}
-            tduration=${var[2]}
-            IFS='/' read -r srate unit <<<"$trate"
-            rampoptions="--ramp-type ${var[3]} --ramp-steps ${var[4]} --end-rate ${var[5]} --start-rate $srate --ramp-duration ${var[6]}"
-        fi
+            if [ ${#var[@]} -eq 3 ]; then
+                tname=${var[0]}
+                trate=${var[1]}
+                tduration=${var[2]}
+            else
+                tname=${var[0]}
+                trate=${var[1]}
+                tduration=${var[2]}
+                IFS='/' read -r srate unit <<<"$trate"
+                rampoptions="--ramp-type ${var[3]} --ramp-steps ${var[4]} --end-rate ${var[5]} --start-rate $srate --ramp-duration ${var[6]}"
+            fi
 
-        clusteroptions=""
-        if [[ -n ${CLUSTER_ID} ]]; then
-            clusteroptions="--cluster-id ${CLUSTER_ID}"
-        fi
+            clusteroptions=""
+            if [[ -n ${CLUSTER_ID} ]]; then
+                clusteroptions="--cluster-id ${CLUSTER_ID}"
+            fi
 
-        # As each test runs for a longer duration, aws OsdCcsAdmin key migt have been deleted if rosa cluster is created in parallel
-        aws_osdccadmin_keys=`aws iam list-access-keys --user-name OsdCcsAdmin --output text --query 'AccessKeyMetadata[*].AccessKeyId'`
-        if [[ "$aws_osdccadmin_keys" != *"$AWS_OSDCCADMIN_KEY"* ]]; then
-            echo "create AWS OsdCcsAdmin key as it got deleted..."
-            create_aws_key
+            # As each test runs for a longer duration, aws OsdCcsAdmin key migt have been deleted if rosa cluster is created in parallel
+            aws_osdccadmin_keys=`aws iam list-access-keys --user-name OsdCcsAdmin --output text --query 'AccessKeyMetadata[*].AccessKeyId'`
+            if [[ "$aws_osdccadmin_keys" != *"$AWS_OSDCCADMIN_KEY"* ]]; then
+                echo "create AWS OsdCcsAdmin key as it got deleted..."
+                create_aws_key
+            fi
+            echo $GATEWAY_URL
+            # Timeout runs ocm-load-test for the specified duration even if airflow killed this script (when user wants to stop benchmark execution). This helps in ocm-load-test to cleanup resources it created. 10 minutes extra timeout is set so that test can prepare results after running for the given duration.
+            # kill-after option needs sudo permissions
+            timeout --kill-after=60s --preserve-status $(((tduration + 20) * 60)) $TESTDIR/build/ocm-load-test --aws-region $AWS_DEFAULT_REGION --aws-account-id $AWS_ACCOUNT_ID --aws-access-key $AWS_OSDCCADMIN_KEY --aws-access-secret $AWS_OSDCCADMIN_SECRET --cooldown $COOLDOWN --duration $tduration --elastic-index ocm-load-metrics --elastic-insecure-skip-verify=true --elastic-server $ES_SERVER --gateway-url $GATEWAY_URL --client-id $OCM_CLIENT_ID --client-secret $OCM_CLIENT_SECRET --ocm-token-url $OCM_TOKEN_URL --output-path $TESTDIR/results --rate $trate --test-id $UUID --test-names $tname $rampoptions $clusteroptions || true
+            sleep $COOLDOWN
         fi
-        echo $GATEWAY_URL
-	# Timeout runs ocm-load-test for the specified duration even if airflow killed this script (when user wants to stop benchmark execution). This helps in ocm-load-test to cleanup resources it created. 10 minutes extra timeout is set so that test can prepare results after running for the given duration.
-	# kill-after option needs sudo permissions
-        timeout --kill-after=60s --preserve-status $(((tduration + 20) * 60)) $TESTDIR/build/ocm-load-test --aws-region $AWS_DEFAULT_REGION --aws-account-id $AWS_ACCOUNT_ID --aws-access-key $AWS_OSDCCADMIN_KEY --aws-access-secret $AWS_OSDCCADMIN_SECRET --cooldown $COOLDOWN --duration $tduration --elastic-index ocm-load-metrics --elastic-insecure-skip-verify=true --elastic-server $ES_SERVER --gateway-url $GATEWAY_URL --client-id $OCM_CLIENT_ID --client-secret $OCM_CLIENT_SECRET --ocm-token-url $OCM_TOKEN_URL --output-path $TESTDIR/results --rate $trate --test-id $UUID --test-names $tname $rampoptions $clusteroptions || true
-	sleep $COOLDOWN
     done
     benchmark_rv=$?
     end_time=$(date +%s)
