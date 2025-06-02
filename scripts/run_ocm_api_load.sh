@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 # declare tests with rate and duration. Duration will be in minutes
 # create_cluster, create-services, get-services and patch-services skipped till they get fixed and stabilized
@@ -119,9 +120,6 @@ run_ocm_api_load(){
     BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
     echo "Base directory $BASEDIR"
     
-    cat $BASEDIR/environment.txt
-    echo "Custom test\n $CUSTOM_TESTS"
-
     # export environment variables shared by airflow (avoid overriding local env vars)
     rm -rf $BASEDIR/local_env.txt
     env > $BASEDIR/local_env.txt
