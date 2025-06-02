@@ -138,7 +138,7 @@ pipeline {
             defaultValue: '',
             description: '''
                 Enter the values of test you would like to run, otherwise the default configured task will run.<br/>
-                All values must be in the format `<<test-name>> <<rate>> <<duration>>` separated by a new line symbol `\\n`<br/>
+                All values must be in the format `test-name rate duration` separated by a new line symbol `\\n`<br/>
                 e.g.<br/>
                 get-versions 1/m 1\\nget-osl-cluster-logs 1/m 1\\nget-osl-uuid-cluster-logs 1/m 1\\n...\\npost-osl-cluster-logs 1/m 1
             '''
