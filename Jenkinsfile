@@ -134,6 +134,20 @@ pipeline {
             description: 'ES Server URL to store results.'
         )
         text(
+            name: 'CUSTOM_TESTS',
+            defaultValue: '',
+            description: '''
+                Enter the values of test you would like to run, otherwise the default configured task will run.<br/>
+                e.g.<br/>
+                <br/>
+                get-versions 1/m 1\n<br/>
+                get-osl-cluster-logs 1/m 1\n<br/>
+                get-osl-uuid-cluster-logs 1/m 1\n<br/>
+                ...<br/>
+                post-osl-cluster-logs 1/m 1
+            '''
+        )
+        text(
             name: 'ENV_VARS',
             defaultValue: '',
             description: '''

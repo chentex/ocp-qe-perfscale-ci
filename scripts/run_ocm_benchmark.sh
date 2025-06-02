@@ -21,6 +21,7 @@ setup(){
     fi
 
     if  [[ -n ${CUSTOM_ORCHESTRATION_HOST} ]]; then
+        echo "Using CUSTOM_ORCHESTRATION_HOST: ${ORCHESTRATION_HOST}"
         export ORCHESTRATION_HOST=${CUSTOM_ORCHESTRATION_HOST}
     fi
 
@@ -47,6 +48,7 @@ setup(){
     export GATEWAY_URL=${GATEWAY_URL}
     export BUILD_URL=${BUILD_URL}
     export CLUSTER_ID=${CLUSTER_ID}
+    export CUSTOM_TESTS=${CUSTOM_TESTS}
 
     # TESTDIR and UUID will be same for ocm-api-load operation. cleanup operation uses different TESTDIR to get unaffected by ocm-api-load operation failures. Cleanup still retrieves UUID and removes /tmp/${UUID} on ORCHESTRATION_HOST
     export TESTDIR=$(uuidgen | head -c8)-$JENKINS_JOB_NUMBER-$(date '+%Y%m%d')

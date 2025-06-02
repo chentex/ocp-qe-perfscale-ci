@@ -144,6 +144,11 @@ run_ocm_api_load(){
 
     create_aws_key
 
+    if  [[ -n ${CUSTOM_TESTS} ]]; then
+        echo "Using CUSTOM_TESTS set: ${CUSTOM_TESTS}"
+        tests=${CUSTOM_TESTS}
+    fi
+
     # Run each test individually
     start_time=$(date +%s)
     echo -e $tests | while read -a var; do
